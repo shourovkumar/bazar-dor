@@ -1,9 +1,9 @@
 'use client';
 
-import { signIn, signUp } from '@/lib/auth-client';
+import { signIn, signUp, useSession } from '@/lib/auth-client';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
 export default function SignUpPage() {
@@ -13,6 +13,14 @@ export default function SignUpPage() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const { data: session, isPending } = useSession();
+
+  // Already logged in → redirect home
+  useEffect(() => {
+    if (!isPending && session) {
+      router.push('/');
+    }
+  }, [session, isPending, router]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -41,8 +49,9 @@ export default function SignUpPage() {
       return;
     }
 
-    toast.success('অ্যাকাউন্ট তৈরি সফল! সাইন ইন করুন।');
-    router.push('/signin');
+    toast.success('অ্যাকাউন্ট তৈরি সফল! 🎉');
+    router.push('/');
+    router.refresh();
   };
 
   const handleGoogleSignIn = async () => {
@@ -59,22 +68,37 @@ export default function SignUpPage() {
     });
   };
 
+  // Loading state while session check
+  if (isPending) {
+    return (
+      <div className="min-h-[80vh] flex items-center justify-center">
+        <div className="w-12 h-12 border-4 border-gray-200 border-t-green-600 rounded-full animate-spin" />
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-[80vh] flex items-center justify-center px-4 py-12">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">অ্যাকাউন্ট তৈরি করুন</h1>
-          <p className="text-sm text-gray-500">বিনা খরচে সাইন আপ করে সব বিস্তারিত দাম দেখুন।</p>
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">
+            অ্যাকাউন্ট তৈরি করুন
+          </h1>
+          <p className="text-sm text-gray-500">
+            বিনা খরচে সাইন আপ করে সব বিস্তারিত দাম দেখুন।
+          </p>
         </div>
 
         <div className="bg-white rounded-2xl border border-gray-100 p-6 md:p-8">
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1.5">নাম</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                নাম
+              </label>
               <input
                 type="text"
                 value={name}
-                onChange={e => setName(e.target.value)}
+                onChange={(e) => setName(e.target.value)}
                 placeholder="যেমন: সৌরভ কুমার"
                 required
                 className="w-full px-4 py-2.5 border border-gray-200 rounded-lg focus:border-green-500 focus:outline-none"
@@ -82,11 +106,13 @@ export default function SignUpPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1.5">ইমেইল</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                ইমেইল
+              </label>
               <input
                 type="email"
                 value={email}
-                onChange={e => setEmail(e.target.value)}
+                onChange={(e) => setEmail(e.target.value)}
                 placeholder="shourov@example.com"
                 required
                 className="w-full px-4 py-2.5 border border-gray-200 rounded-lg focus:border-green-500 focus:outline-none"
@@ -94,11 +120,13 @@ export default function SignUpPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1.5">পাসওয়ার্ড</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                পাসওয়ার্ড
+              </label>
               <input
                 type="password"
                 value={password}
-                onChange={e => setPassword(e.target.value)}
+                onChange={(e) => setPassword(e.target.value)}
                 placeholder="কমপক্ষে ৮ অক্ষর"
                 required
                 minLength={8}
@@ -113,7 +141,7 @@ export default function SignUpPage() {
               <input
                 type="password"
                 value={confirmPassword}
-                onChange={e => setConfirmPassword(e.target.value)}
+                onChange={(e) => setConfirmPassword(e.target.value)}
                 placeholder="আবার লিখুন"
                 required
                 minLength={8}
@@ -139,6 +167,7 @@ export default function SignUpPage() {
           <div className="grid grid-cols-2 gap-3">
             <button
               onClick={handleGoogleSignIn}
+              type="button"
               className="flex items-center justify-center gap-2 border border-gray-200 rounded-lg py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50"
             >
               <svg className="w-4 h-4" viewBox="0 0 24 24">
@@ -164,6 +193,7 @@ export default function SignUpPage() {
 
             <button
               onClick={handleGithubSignIn}
+              type="button"
               className="flex items-center justify-center gap-2 border border-gray-200 rounded-lg py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50"
             >
               <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
@@ -175,7 +205,10 @@ export default function SignUpPage() {
 
           <p className="text-center text-sm text-gray-500 mt-6">
             অ্যাকাউন্ট আছে?{' '}
-            <Link href="/signin" className="text-green-600 font-medium hover:underline">
+            <Link
+              href="/signin"
+              className="text-green-600 font-medium hover:underline"
+            >
               সাইন ইন করুন
             </Link>
           </p>

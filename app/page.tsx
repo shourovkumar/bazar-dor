@@ -15,7 +15,7 @@ export default async function Home() {
       {/* Section A: Risers (দাম বেড়েছে) — Green (bad for consumer) */}
       {risers.length > 0 && (
         <section className="max-w-6xl mx-auto px-4 py-8">
-          <SectionHeader title="আজ দাম বেড়েছে" emoji="▲" color="green" />
+          <SectionHeader title="আজ দাম বেড়েছে" emoji="▲" color="red" />
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
             {risers.map((product) => (
               <ProductCard key={product.id} product={product} />
@@ -27,7 +27,7 @@ export default async function Home() {
       {/* Section B: Fallers (দাম কমেছে) — Red (good for consumer) */}
       {fallers.length > 0 && (
         <section className="max-w-6xl mx-auto px-4 py-8">
-          <SectionHeader title="আজ দাম কমেছে" emoji="▼" color="red" />
+          <SectionHeader title="আজ দাম কমেছে" emoji="▼" color="green" />
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
             {fallers.map((product) => (
               <ProductCard key={product.id} product={product} />

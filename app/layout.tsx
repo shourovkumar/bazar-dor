@@ -30,7 +30,10 @@ export default async function RootLayout({
 
   return (
     <html lang="bn">
-      <body className={`${notoBengali.variable} font-sans bg-gray-50`}>
+      <body
+        suppressHydrationWarning
+        className={`${notoBengali.variable} font-sans bg-gray-50`}
+      >
         <Navbar categories={categories} />
         <PriceTicker products={products} />
         <main className="min-h-screen">{children}</main>

@@ -22,10 +22,12 @@ export default function PriceTicker({ products }: PriceTickerProps) {
               href={`/product/${product.id}`}
               className="flex items-center gap-2 text-sm hover:opacity-80"
             >
-              <span className="text-base">{product.emoji || '🛒'}</span>
+              <span className="text-base">
+                {product.image || product.categoryIcon || '🛒'}
+              </span>
               <span className="font-medium">{product.nameBn}</span>
               <span className="font-bold">
-                {formatPrice(product.today)} টাকা/{product.unit.replace('প্রতি ', '')}
+                {formatPrice(product.today)} টাকা/{product.unit}
               </span>
               <span
                 className={`text-xs font-bold ${

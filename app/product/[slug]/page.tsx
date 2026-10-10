@@ -67,10 +67,7 @@ export default async function ProductDetailsPage({
           হোম
         </Link>
         <span>›</span>
-        <Link
-          href={`/category/${product.category}`}
-          className="hover:text-green-600"
-        >
+        <Link href={`/category/${product.category}`} className="hover:text-green-600">
           {product.categoryNameBn || product.category}
         </Link>
         <span>›</span>
@@ -81,11 +78,9 @@ export default async function ProductDetailsPage({
       <div className="bg-white rounded-2xl border border-gray-100 p-6 mb-6">
         <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-6">
           <div className="flex items-start gap-4">
-            <div className="text-6xl">{product.emoji || '🛒'}</div>
+            <div className="text-6xl">{product.image || product.categoryIcon || '🛒'}</div>
             <div>
-              <h1 className="text-2xl md:text-3xl font-bold text-gray-900">
-                {product.nameBn}
-              </h1>
+              <h1 className="text-2xl md:text-3xl font-bold text-gray-900">{product.nameBn}</h1>
               <p className="text-sm text-gray-500 mt-1">
                 {product.unit}
                 {product.categoryNameBn && ` · ${product.categoryNameBn}`}
@@ -110,12 +105,8 @@ export default async function ProductDetailsPage({
 
           {/* Today's Price Box */}
           <div className="bg-gray-50 rounded-xl p-4 text-center min-w-[180px]">
-            <p className="text-xs text-gray-500 uppercase tracking-wide">
-              আজকের দাম
-            </p>
-            <p className="text-3xl font-bold text-gray-900 mt-1">
-              {formatPrice(product.today)}
-            </p>
+            <p className="text-xs text-gray-500 uppercase tracking-wide">আজকের দাম</p>
+            <p className="text-3xl font-bold text-gray-900 mt-1">{formatPrice(product.today)}</p>
             <p className="text-xs text-gray-500 mt-1">
               টাকা / {product.unit.replace('প্রতি ', '')}
             </p>
@@ -124,8 +115,8 @@ export default async function ProductDetailsPage({
                 badge.isUp
                   ? 'bg-red-50 text-red-600'
                   : badge.isDown
-                  ? 'bg-green-50 text-green-600'
-                  : 'bg-gray-100 text-gray-500'
+                    ? 'bg-green-50 text-green-600'
+                    : 'bg-gray-100 text-gray-500'
               }`}
             >
               {badge.isUp && <TrendingUp className="w-3 h-3" />}
@@ -138,36 +129,20 @@ export default async function ProductDetailsPage({
 
       {/* Price Summary */}
       <div className="mb-6">
-        <h2 className="text-lg font-bold text-gray-900 mb-3">
-          দামের সারসংক্ষেপ
-        </h2>
+        <h2 className="text-lg font-bold text-gray-900 mb-3">দামের সারসংক্ষেপ</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="bg-white rounded-xl border border-gray-100 p-4">
-            <p className="text-xs text-gray-500 uppercase tracking-wide">
-              সর্বনিম্ন দাম
-            </p>
-            <p className="text-2xl font-bold text-green-600 mt-1">
-              {formatPrice(minPrice)} টাকা
-            </p>
-            {minMarket && (
-              <p className="text-xs text-gray-500 mt-1">{minMarket} বাজার</p>
-            )}
+            <p className="text-xs text-gray-500 uppercase tracking-wide">সর্বনিম্ন দাম</p>
+            <p className="text-2xl font-bold text-green-600 mt-1">{formatPrice(minPrice)} টাকা</p>
+            {minMarket && <p className="text-xs text-gray-500 mt-1">{minMarket} বাজার</p>}
           </div>
           <div className="bg-white rounded-xl border border-gray-100 p-4">
-            <p className="text-xs text-gray-500 uppercase tracking-wide">
-              সর্বোচ্চ দাম
-            </p>
-            <p className="text-2xl font-bold text-red-600 mt-1">
-              {formatPrice(maxPrice)} টাকা
-            </p>
-            {maxMarket && (
-              <p className="text-xs text-gray-500 mt-1">{maxMarket} বাজার</p>
-            )}
+            <p className="text-xs text-gray-500 uppercase tracking-wide">সর্বোচ্চ দাম</p>
+            <p className="text-2xl font-bold text-red-600 mt-1">{formatPrice(maxPrice)} টাকা</p>
+            {maxMarket && <p className="text-xs text-gray-500 mt-1">{maxMarket} বাজার</p>}
           </div>
           <div className="bg-white rounded-xl border border-gray-100 p-4">
-            <p className="text-xs text-gray-500 uppercase tracking-wide">
-              গড় দাম
-            </p>
+            <p className="text-xs text-gray-500 uppercase tracking-wide">গড় দাম</p>
             <p className="text-2xl font-bold text-gray-900 mt-1">
               {formatPrice(Number(avgPrice.toFixed(1)))} টাকা
             </p>
@@ -180,9 +155,7 @@ export default async function ProductDetailsPage({
 
       {/* Market Price Table */}
       <div className="mb-6">
-        <h2 className="text-lg font-bold text-gray-900 mb-3">
-          বাজারভিত্তিক আজকের দাম
-        </h2>
+        <h2 className="text-lg font-bold text-gray-900 mb-3">বাজারভিত্তিক আজকের দাম</h2>
         <MarketPriceTable markets={markets} />
       </div>
 

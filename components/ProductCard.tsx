@@ -15,7 +15,9 @@ export default function ProductCard({ product }: ProductCardProps) {
       className="block bg-white rounded-lg sm:rounded-xl border border-gray-100 hover:border-green-300 hover:shadow-md transition-all p-2.5 sm:p-4"
     >
       <div className="flex items-start justify-between gap-1">
-        <div className="text-2xl sm:text-4xl">{product.emoji || '🛒'}</div>
+        <div className="text-2xl sm:text-4xl">
+          {product.image || product.categoryIcon || '🛒'}
+        </div>
         <span
           className={`text-[9px] sm:text-xs font-bold px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-full whitespace-nowrap ${
             badge.isUp

@@ -12,11 +12,11 @@ export default async function Home() {
     <div>
       <Hero />
 
-      {/* Section A: Risers (দাম বেড়েছে) — Green (bad for consumer) */}
+      {/* Section A: Risers (দাম বেড়েছে) — RED (bad for consumer) */}
       {risers.length > 0 && (
-        <section className="max-w-6xl mx-auto px-4 py-8">
+        <section className="max-w-6xl mx-auto px-3 sm:px-4 py-6 sm:py-8">
           <SectionHeader title="আজ দাম বেড়েছে" emoji="▲" color="red" />
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2 sm:gap-4">
             {risers.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}
@@ -24,11 +24,11 @@ export default async function Home() {
         </section>
       )}
 
-      {/* Section B: Fallers (দাম কমেছে) — Red (good for consumer) */}
+      {/* Section B: Fallers (দাম কমেছে) — GREEN (good for consumer) */}
       {fallers.length > 0 && (
-        <section className="max-w-6xl mx-auto px-4 py-8">
+        <section className="max-w-6xl mx-auto px-3 sm:px-4 py-6 sm:py-8">
           <SectionHeader title="আজ দাম কমেছে" emoji="▼" color="green" />
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2 sm:gap-4">
             {fallers.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}
@@ -39,13 +39,13 @@ export default async function Home() {
       {/* Section C: All Products */}
       <section
         id="সব-পণ্য"
-        className="max-w-6xl mx-auto px-4 py-8 scroll-mt-32"
+        className="max-w-6xl mx-auto px-3 sm:px-4 pt-6 pb-2 sm:py-8 scroll-mt-32"
       >
         <SectionHeader title="সব পণ্য" emoji="🛒" color="gray" />
-        <p className="text-sm text-gray-500 -mt-2 mb-4">
+        <p className="text-xs sm:text-sm text-gray-500 -mt-2 mb-4">
           মোট {products.length}টি পণ্যের আজকের দাম
         </p>
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-4">
           {products.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}

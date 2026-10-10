@@ -3,7 +3,8 @@
 import { authClient } from '@/lib/auth-client';
 import { getBanglaDate } from '@/lib/utils';
 import type { Category } from '@/types';
-import { ChevronDown, LogOut, ShoppingCart, User } from 'lucide-react';
+import { ChevronDown, LogOut, User } from 'lucide-react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -24,19 +25,27 @@ export default function Navbar({ categories = [] }: NavbarProps) {
     toast.success('সাইন আউট সফল');
     setMenuOpen(false);
     router.push('/');
+    router.refresh();
   };
 
   return (
     <header className="sticky top-0 z-50 bg-white shadow-sm">
+      {/* Row 1 — Logo + Date + Auth */}
       <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
-        <Link href="/" className="flex flex-col">
-          <div className="flex items-center gap-2">
-            <div className="w-9 h-9 bg-green-600 rounded-full flex items-center justify-center">
-              <ShoppingCart className="w-5 h-5 text-white" />
-            </div>
-            <span className="text-xl font-bold text-green-700">বাজার দর</span>
+        <Link href="/" className="flex items-center gap-2">
+          <Image
+            src="/images/cart-icon.png"
+            alt="বাজার দর"
+            width={36}
+            height={36}
+            className="object-contain"
+          />
+          <div className="flex flex-col">
+            <span className="text-xl font-bold text-green-700 leading-tight">
+              বাজার দর
+            </span>
+            <span className="text-[10px] text-gray-500">{getBanglaDate()}</span>
           </div>
-          <span className="text-xs text-gray-500 mt-0.5">{getBanglaDate()}</span>
         </Link>
 
         <div className="relative flex items-center gap-3">
@@ -55,7 +64,7 @@ export default function Navbar({ categories = [] }: NavbarProps) {
                 />
               ) : (
                 <div className="w-9 h-9 bg-green-600 rounded-full flex items-center justify-center text-white font-bold">
-                  {session.user.name?.[0] || 'U'}
+                  {session.user.name?.[0]?.toUpperCase() || 'U'}
                 </div>
               )}
               <span className="text-sm font-medium text-gray-800 hidden sm:inline">
@@ -73,7 +82,7 @@ export default function Navbar({ categories = [] }: NavbarProps) {
               </Link>
               <Link
                 href="/signup"
-                className="text-sm font-medium bg-green-600 text-white px-4 py-1.5 rounded-full hover:bg-green-700"
+                className="text-sm font-medium bg-green-600 text-white px-4 py-1.5 rounded-full hover:bg-green-700 transition-colors"
               >
                 সাইন আপ
               </Link>
@@ -106,6 +115,7 @@ export default function Navbar({ categories = [] }: NavbarProps) {
         </div>
       </div>
 
+      {/* Row 2 — Categories */}
       <div className="border-t border-green-100 bg-green-50">
         <nav className="max-w-6xl mx-auto px-4 overflow-x-auto">
           <ul className="flex gap-2 py-2">

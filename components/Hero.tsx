@@ -1,4 +1,5 @@
 import { ArrowDown } from 'lucide-react';
+import Image from 'next/image';
 
 export default function Hero() {
   return (
@@ -12,8 +13,8 @@ export default function Hero() {
             আজকের বাজারের দাম এক নজরে
           </h1>
           <p className="mt-4 text-gray-600">
-            চাল, ডাল, তেল, সবজি, মাছ, মাংস, ডিম ও মসলার দাম — বাজারভিত্তিক বিস্তারিত,
-            গড়, সর্বনিম্ন-সর্বাধিক এবং দামের পরিবর্তন এক জায়গায়।
+            চাল, ডাল, তেল, সবজি, মাছ, মাংস, ডিম ও মসলার দাম — বাজারভিত্তিক
+            বিস্তারিত, গড়, সর্বনিম্ন-সর্বাধিক এবং দামের পরিবর্তন এক জায়গায়।
           </p>
           <a
             href="#সব-পণ্য"
@@ -23,8 +24,16 @@ export default function Hero() {
             <ArrowDown className="w-4 h-4" />
           </a>
         </div>
+
         <div className="flex-1 flex justify-center">
-          <div className="text-8xl md:text-9xl">🧺</div>
+          <Image
+            src="/images/basket-hero.png"
+            alt="বাজারের ঝুড়ি"
+            width={400}
+            height={400}
+            className="w-full max-w-[240px] sm:max-w-[280px] md:max-w-xs"
+            priority
+          />
         </div>
       </div>
     </section>

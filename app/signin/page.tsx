@@ -1,9 +1,9 @@
 'use client';
 
-import { signIn } from '@/lib/auth-client';
+import { signIn, useSession } from '@/lib/auth-client';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
 export default function SignInPage() {
@@ -11,6 +11,14 @@ export default function SignInPage() {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const { data: session, isPending } = useSession();
+
+  // If already logged in, redirect to home
+  useEffect(() => {
+    if (!isPending && session) {
+      router.push('/');
+    }
+  }, [session, isPending, router]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -42,6 +50,14 @@ export default function SignInPage() {
       callbackURL: '/',
     });
   };
+
+  if (isPending) {
+    return (
+      <div className="min-h-[80vh] flex items-center justify-center">
+        <div className="w-12 h-12 border-4 border-gray-200 border-t-green-600 rounded-full animate-spin" />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-[80vh] flex items-center justify-center px-4 py-12">
@@ -102,6 +118,7 @@ export default function SignInPage() {
           <div className="grid grid-cols-2 gap-3">
             <button
               onClick={handleGoogleSignIn}
+              type="button"
               className="flex items-center justify-center gap-2 border border-gray-200 rounded-lg py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50"
             >
               <svg className="w-4 h-4" viewBox="0 0 24 24">
@@ -115,6 +132,7 @@ export default function SignInPage() {
 
             <button
               onClick={handleGithubSignIn}
+              type="button"
               className="flex items-center justify-center gap-2 border border-gray-200 rounded-lg py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50"
             >
               <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">

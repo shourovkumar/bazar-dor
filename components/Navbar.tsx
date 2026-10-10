@@ -4,7 +4,6 @@ import { authClient } from '@/lib/auth-client';
 import { getBanglaDate } from '@/lib/utils';
 import type { Category } from '@/types';
 import { ChevronDown, LogOut, User } from 'lucide-react';
-import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -32,19 +31,29 @@ export default function Navbar({ categories = [] }: NavbarProps) {
     <header className="sticky top-0 z-50 bg-white shadow-sm">
       {/* Row 1 — Logo + Date + Auth */}
       <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-2">
-          <Image
-            src="/images/cart-icon.png"
-            alt="বাজার দর"
-            width={36}
-            height={36}
-            className="object-contain"
-          />
+        <Link href="/" className="flex items-center gap-2.5">
+          {/* Green circle with cart icon (SVG) */}
+          <div className="w-9 h-9 sm:w-10 sm:h-10 bg-green-600 rounded-lg flex items-center justify-center flex-shrink-0">
+            <svg
+              className="w-5 h-5 sm:w-6 sm:h-6 text-white"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              viewBox="0 0 24 24"
+            >
+              <circle cx="9" cy="21" r="1" />
+              <circle cx="20" cy="21" r="1" />
+              <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
+            </svg>
+          </div>
+
           <div className="flex flex-col">
-            <span className="text-xl font-bold text-green-700 leading-tight">
+            <span className="text-base sm:text-xl font-bold text-green-700 leading-tight">
               বাজার দর
             </span>
-            <span className="text-[10px] text-gray-500">{getBanglaDate()}</span>
+            <span className="text-[9px] sm:text-[10px] text-gray-500">{getBanglaDate()}</span>
           </div>
         </Link>
 
@@ -123,24 +132,20 @@ export default function Navbar({ categories = [] }: NavbarProps) {
               <Link
                 href="/"
                 className={`px-4 py-1.5 rounded-full text-sm whitespace-nowrap transition-colors ${
-                  pathname === '/'
-                    ? 'bg-green-600 text-white'
-                    : 'text-green-700 hover:bg-green-100'
+                  pathname === '/' ? 'bg-green-600 text-white' : 'text-green-700 hover:bg-green-100'
                 }`}
               >
                 সব
               </Link>
             </li>
-            {categories.map((cat) => {
+            {categories.map(cat => {
               const isActive = pathname === `/category/${cat.slug}`;
               return (
                 <li key={cat.slug}>
                   <Link
                     href={`/category/${cat.slug}`}
                     className={`px-4 py-1.5 rounded-full text-sm whitespace-nowrap transition-colors flex items-center gap-1 ${
-                      isActive
-                        ? 'bg-green-600 text-white'
-                        : 'text-green-700 hover:bg-green-100'
+                      isActive ? 'bg-green-600 text-white' : 'text-green-700 hover:bg-green-100'
                     }`}
                   >
                     <span>{cat.icon}</span>

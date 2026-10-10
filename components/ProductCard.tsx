@@ -12,14 +12,15 @@ export default function ProductCard({ product }: ProductCardProps) {
   return (
     <Link
       href={`/product/${product.id}`}
-      className="block bg-white rounded-lg sm:rounded-xl border border-gray-100 hover:border-green-300 hover:shadow-md transition-all p-2.5 sm:p-4"
+      className="group block bg-white rounded-xl border border-gray-200 hover:border-green-400 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 p-4"
     >
-      <div className="flex items-start justify-between gap-1">
-        <div className="text-2xl sm:text-4xl">
+      {/* Emoji + Badge */}
+      <div className="flex items-start justify-between gap-2">
+        <div className="text-3xl sm:text-4xl leading-none">
           {product.image || product.categoryIcon || '🛒'}
         </div>
         <span
-          className={`text-[9px] sm:text-xs font-bold px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-full whitespace-nowrap ${
+          className={`text-[10px] sm:text-xs font-bold px-2 py-1 rounded-full whitespace-nowrap ${
             badge.isUp
               ? 'bg-red-50 text-red-600'
               : badge.isDown
@@ -31,18 +32,28 @@ export default function ProductCard({ product }: ProductCardProps) {
         </span>
       </div>
 
-      <h3 className="font-bold text-gray-900 mt-2 sm:mt-3 text-sm sm:text-base leading-tight line-clamp-2">
+      {/* Name */}
+      <h3 className="font-bold text-gray-900 mt-3 text-sm sm:text-base leading-tight line-clamp-2 min-h-[2.5rem]">
         {product.nameBn}
       </h3>
-      <p className="text-[10px] sm:text-xs text-gray-500 mt-0.5">
-        {product.unit}
-      </p>
 
-      <div className="mt-2 sm:mt-4 pt-2 sm:pt-3 border-t border-gray-100">
-        <p className="text-[9px] sm:text-[10px] text-gray-500 uppercase tracking-wide">
+      {/* Unit + Category Tag */}
+      <div className="flex items-center gap-2 mt-1">
+        <span className="text-[11px] sm:text-xs text-gray-500">
+          {product.unit}
+        </span>
+        <span className="text-gray-300">·</span>
+        <span className="inline-block bg-green-50 text-green-700 text-[10px] font-semibold px-2 py-0.5 rounded">
+          {product.categoryNameBn || product.category}
+        </span>
+      </div>
+
+      {/* Divider + Price */}
+      <div className="mt-3 pt-3 border-t border-gray-100">
+        <p className="text-[9px] sm:text-[10px] text-gray-400 uppercase tracking-wider">
           আজকের দাম
         </p>
-        <p className="font-bold text-gray-900 text-sm sm:text-lg">
+        <p className="font-bold text-gray-900 text-base sm:text-lg mt-0.5">
           {formatPrice(product.today)} টাকা
         </p>
       </div>

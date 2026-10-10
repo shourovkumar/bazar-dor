@@ -72,3 +72,16 @@ npm install
 
 # Run dev server
 npm run dev
+
+
+Open http://localhost:3000 in your browser.
+
+## 👤 Author
+
+**Shourov Kumar**
+- GitHub: [@shourovkumar](https://github.com/shourovkumar)
+- Live Site: [Bazar Dor](https://bazar-dor-web-liart.vercel.app)
+
+---
+
+© 2026 বাজার দর (Bazar Dor) — All rights reserved.

@@ -1,4 +1,4 @@
-import CategorySortWrapper from '@/components/CategorySortWrapper';
+import CategoryProducts from '@/components/CategoryProducts';
 import { getAllCategories, getProductsByCategory } from '@/lib/api';
 import { Home } from 'lucide-react';
 import Link from 'next/link';
@@ -17,10 +17,10 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
 
   const currentCategory = categories.find((cat) => cat.slug === slug);
 
-  // Empty state — invalid slug
+  // Empty state
   if (!products.length) {
     return (
-      <div className="max-w-6xl mx-auto px-4 py-16">
+      <div className="max-w-6xl mx-auto px-3 sm:px-4 py-16">
         <div className="min-h-[40vh] flex flex-col items-center justify-center text-center bg-white rounded-2xl border border-gray-100 p-8">
           <p className="text-6xl mb-4">🔍</p>
           <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">
@@ -42,20 +42,19 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
   }
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-8">
+    <div className="max-w-6xl mx-auto px-3 sm:px-4 py-6 sm:py-8">
+      {/* Title + Icon */}
       <div className="flex items-center gap-3 mb-6">
-        <span className="text-4xl">{currentCategory?.icon || '🛒'}</span>
+        <span className="text-3xl sm:text-4xl">
+          {currentCategory?.icon || '🛒'}
+        </span>
         <h1 className="text-2xl md:text-3xl font-bold text-gray-900">
           {currentCategory?.nameBn || slug}
         </h1>
       </div>
 
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6">
-        <p className="text-sm text-gray-500">
-          মোট {products.length}টি পণ্য দেখানো হচ্ছে
-        </p>
-        <CategorySortWrapper products={products} />
-      </div>
+      {/* Sort + Grid (Client Component) */}
+      <CategoryProducts products={products} />
     </div>
   );
 }

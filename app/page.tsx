@@ -36,7 +36,7 @@ export default async function Home() {
         </section>
       )}
 
-      {/* Section C: All Products */}
+      {/* Section C: All Products — 3 columns on tablet + desktop */}
       <section
         id="সব-পণ্য"
         className="max-w-6xl mx-auto px-3 sm:px-4 pt-6 pb-2 sm:py-8 scroll-mt-32"
@@ -45,7 +45,7 @@ export default async function Home() {
         <p className="text-xs sm:text-sm text-gray-500 -mt-2 mb-4">
           মোট {products.length}টি পণ্যের আজকের দাম
         </p>
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4">
           {products.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}

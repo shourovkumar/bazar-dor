@@ -18,6 +18,7 @@ export default function Navbar({ categories = [] }: NavbarProps) {
   const router = useRouter();
   const { data: session, isPending } = authClient.useSession();
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
+  const [categoryMenuOpen, setCategoryMenuOpen] = useState(false);
 
   const handleSignOut = async (): Promise<void> => {
     await authClient.signOut();
@@ -125,10 +126,27 @@ export default function Navbar({ categories = [] }: NavbarProps) {
       </div>
 
       {/* Row 2 — Categories */}
-      <div className="border-t border-green-100 bg-green-50">
-        <nav className="max-w-6xl mx-auto px-4 overflow-x-auto">
-          <ul className="flex gap-2 py-2">
-            <li>
+      {/* Row 2 — Categories */}
+      <div className="border-t border-green-100 bg-green-50 relative">
+        <nav className="max-w-6xl mx-auto overflow-x-auto scrollbar-hide">
+          <ul className="flex gap-1.5 sm:gap-2 py-2 px-3 sm:px-4">
+            {/* Mobile: "সব ▼" dropdown toggle */}
+            <li className="flex-shrink-0 md:hidden">
+              <button
+                onClick={() => setCategoryMenuOpen(!categoryMenuOpen)}
+                className={`px-3 py-1.5 rounded-full text-xs whitespace-nowrap transition-colors flex items-center gap-1 ${
+                  pathname === '/' ? 'bg-green-600 text-white' : 'text-green-700 hover:bg-green-100'
+                }`}
+              >
+                <span>সব</span>
+                <ChevronDown
+                  className={`w-3 h-3 transition-transform ${categoryMenuOpen ? 'rotate-180' : ''}`}
+                />
+              </button>
+            </li>
+
+            {/* Desktop: "সব" link */}
+            <li className="hidden md:flex flex-shrink-0">
               <Link
                 href="/"
                 className={`px-4 py-1.5 rounded-full text-sm whitespace-nowrap transition-colors ${
@@ -138,12 +156,15 @@ export default function Navbar({ categories = [] }: NavbarProps) {
                 সব
               </Link>
             </li>
+
+            {/* Categories */}
             {categories.map(cat => {
               const isActive = pathname === `/category/${cat.slug}`;
               return (
-                <li key={cat.slug}>
+                <li key={cat.slug} className="hidden md:flex flex-shrink-0">
                   <Link
                     href={`/category/${cat.slug}`}
+                    onClick={() => setCategoryMenuOpen(false)}
                     className={`px-4 py-1.5 rounded-full text-sm whitespace-nowrap transition-colors flex items-center gap-1 ${
                       isActive ? 'bg-green-600 text-white' : 'text-green-700 hover:bg-green-100'
                     }`}
@@ -156,6 +177,46 @@ export default function Navbar({ categories = [] }: NavbarProps) {
             })}
           </ul>
         </nav>
+
+        {/* Mobile dropdown menu */}
+        {categoryMenuOpen && (
+          <div className="md:hidden absolute top-full left-0 right-0 bg-white border-t border-green-100 shadow-lg z-40">
+            <ul className="py-2 max-h-64 overflow-y-auto">
+              <li>
+                <Link
+                  href="/"
+                  onClick={() => setCategoryMenuOpen(false)}
+                  className={`block px-4 py-2.5 text-sm border-b border-gray-50 ${
+                    pathname === '/'
+                      ? 'bg-green-50 text-green-700 font-semibold'
+                      : 'text-gray-700 hover:bg-gray-50'
+                  }`}
+                >
+                  🛒 সব পণ্য
+                </Link>
+              </li>
+              {categories.map(cat => {
+                const isActive = pathname === `/category/${cat.slug}`;
+                return (
+                  <li key={cat.slug}>
+                    <Link
+                      href={`/category/${cat.slug}`}
+                      onClick={() => setCategoryMenuOpen(false)}
+                      className={`block px-4 py-2.5 text-sm border-b border-gray-50 flex items-center gap-2 ${
+                        isActive
+                          ? 'bg-green-50 text-green-700 font-semibold'
+                          : 'text-gray-700 hover:bg-gray-50'
+                      }`}
+                    >
+                      <span>{cat.icon}</span>
+                      <span>{cat.nameBn}</span>
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        )}
       </div>
     </header>
   );
